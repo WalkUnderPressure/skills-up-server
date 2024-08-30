@@ -1,0 +1,8 @@
+# Exclude paclages from git
+node_modules
+
+# Exclude editor folders
+.vscode
+
+# Exclude coverage
+/coverage/

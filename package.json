@@ -1,0 +1,20 @@
+{
+  "name": "app-server",
+  "version": "1.0.0",
+  "description": "app-server",
+  "scripts": {
+    "start:server": "npx ts-node ./json-server/server.ts"
+  },
+  "dependencies": {
+    "json-server": "^0.17.4"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@types/json-server": "^0.14.7",
+    "typescript": "^5.5.4",
+    "ts-node": "^10.9.2"
+  },
+  "keywords": [],
+  "author": "Oleksandr Brynzei",
+  "license": "ISC"
+}
