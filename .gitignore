@@ -9,3 +9,6 @@ node_modules
 
 # Exclude vercel
 .vercel
+
+# Exclude build folder
+/build/
