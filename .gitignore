@@ -6,3 +6,6 @@ node_modules
 
 # Exclude coverage
 /coverage/
+
+# Exclude vercel
+.vercel

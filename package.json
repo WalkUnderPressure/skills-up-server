@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "app-server",
   "scripts": {
-    "start:server": "npx ts-node ./json-server/server.ts"
+    "start": "npx ts-node ./json-server/server.ts"
   },
   "dependencies": {
     "json-server": "^0.17.4"
