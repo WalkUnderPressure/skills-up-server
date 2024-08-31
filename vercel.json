@@ -7,7 +7,7 @@
     "rewrites": [
         {
             "source": "/(.*)",
-            "destination": "/build/index.js"
+            "destination": "/build/server.js"
         }
     ]
 }
