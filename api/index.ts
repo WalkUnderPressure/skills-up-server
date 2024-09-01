@@ -13,6 +13,8 @@ const router = jsonServer.router(DB_DATA);
 server.use(jsonServer.defaults({}));
 server.use(jsonServer.bodyParser);
 
+server.get("/", (req, res) => res.send("JSON Server on Vercel"));
+
 // Small delay for real server behavior imitation
 server.use(async (req, res, next) => {
   await new Promise((res) => {
@@ -62,6 +64,7 @@ server.use(router);
 
 // start dev server
 const PORT = 7000;
+
 server.listen(PORT, () => {
   console.log(`Server is running\nLocal: http://localhost:${PORT}`);
 });
