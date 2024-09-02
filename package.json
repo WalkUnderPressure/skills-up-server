@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "app-server",
   "scripts": {
-    "start:dev": "npx ts-node ./api/index.ts",
-    "start": "node ./build/index.js",
-    "build": "rimraf build && npx tsc"
+    "start:dev": "npx ts-node ./src/build/index.ts",
+    "start": "node ./src/build/index.js",
+    "build": "rimraf ./src/build && npx tsc"
   },
   "dependencies": {
     "json-server": "^0.17.4"

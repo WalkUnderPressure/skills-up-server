@@ -11,4 +11,5 @@ node_modules
 .vercel
 
 # Exclude build
+*/build/**
 /build/
