@@ -1,70 +1,62 @@
-// Working version "json-server": "^0.17.0"
-import jsonServer from 'json-server';
+import "../loadEnvironment.mjs";
 
-import deleteFieldFrom from './lib/deleteFieldFrom';
-import { UserSchema } from './db/users';
-import getDB from './db/__db__';
+import express from 'express';
+import cors from 'cors';
 
-const DB_DATA = getDB();
+// Important load db first to apply mongoose plugins before model will be loaded
+import connectDB from './db';
+// then import schemas
+import profilesRouter from './api/ProfilesRouter';
+import commentsRouter from './api/CommentsRouter';
+import postsRouter from './api/PostsRouter';
+import authRouter from './api/AuthRouter';
 
-const server = jsonServer.create();
-const router = jsonServer.router(DB_DATA);
+const app = express();
 
-server.use(jsonServer.defaults({}));
-server.use(jsonServer.bodyParser);
+app.use(cors());
+app.use(express.json());
 
-server.get("/", (req, res) => res.send("JSON Server on Vercel"));
+// Add requests logger
+app.use((req, res, next) => {
+  const { method, url, params, query, body } = req;
 
-// Small delay for real server behavior imitation
-server.use(async (req, res, next) => {
-  await new Promise((res) => {
-    setTimeout(res, 2000);
-  });
+  console.info(`>>> url => ${JSON.stringify(url)}
+    method => ${JSON.stringify(method)}
+    params => ${JSON.stringify(params)}
+    query => ${JSON.stringify(query)}
+    body => ${JSON.stringify(body)}
+  `);
+
   next();
-});
+})
 
-// Sign in endpoint
-server.post('/sign-in', (req, res) => {
-  try {
-    const { username, password } = req.body;
-
-    const { users = [] } = DB_DATA;
-
-    const userFromBd = users.find(
-      (user: UserSchema) => user.username === username && user.password === password,
-    );
-
-    if (userFromBd) {
-      // remove user password before send to client
-      deleteFieldFrom(userFromBd, 'password');
-
-      return res.json(userFromBd);
-    }
-
-    return res.status(403).json({ message: 'User not found' });
-  } catch (error) {
-    console.log(error);
-
-    if (error instanceof Error) {
-      return res.status(500).json({ message: error.message });
-    }
-  }
-});
-
-// Check user authorization
-server.use((req, res, next) => {
+// Check user authorization (now simple, update in future)
+app.use((req, res, next) => {
   if (!req.headers.authorization) {
-    return res.status(403).json({ message: 'Authorization error!' });
+    return res.status(403).json({ status: 403, message: 'Authorization required!' });
   }
 
   next();
 });
 
-server.use(router);
-
-// start dev server
-const PORT = 7000;
-
-server.listen(PORT, () => {
-  console.log(`Server is running\nLocal: http://localhost:${PORT}`);
+app.get('/', (req, res) => {
+  return res.send("skills-up-server working!");
 });
+
+app.use('/auth', authRouter);
+app.use('/profiles', profilesRouter);
+app.use('/comments', commentsRouter);
+app.use('/posts', postsRouter);
+
+const PORT = process.env.PORT || 7000;
+
+async function startup() {
+  await connectDB();
+
+  app.listen(PORT, () => {
+    console.log(`>>> Server is running at: http://localhost:${PORT}`);
+  });
+}
+
+// start server
+startup();
