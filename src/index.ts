@@ -1,7 +1,16 @@
-import "../loadEnvironment.mjs";
-
 import express, { Request, Response, NextFunction } from 'express';
+import dotenv, { DotenvConfigOptions } from "dotenv";
 import cors from 'cors';
+import path from 'path';
+
+let dotEnvConfig: DotenvConfigOptions = {};
+
+if (process.env.NODE_ENV === 'dev') {
+  dotEnvConfig.path = path.resolve(__dirname, '..', '.env');
+}
+
+// setup env variables
+dotenv.config(dotEnvConfig);
 
 // Important load db first to apply mongoose plugins before model will be loaded
 import connectDB from './db';

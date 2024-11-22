@@ -6,7 +6,7 @@
   "license": "ISC",
   "keywords": [],
   "scripts": {
-    "start:dev": "npx tsx watch ./src/index.ts",
+    "start:dev": "NODE_ENV=dev npx tsx watch ./src/index.ts",
     "start": "node ./build/index.js",
     "build": "rimraf ./build && npx tsc",
     "add-build": "git add build",
