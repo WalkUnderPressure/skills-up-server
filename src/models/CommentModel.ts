@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 
+import createModel from './lib/createModel';
+
 const CommentSchema = new Schema({
   text: { type: String },
   postId: { type: Schema.ObjectId },
@@ -20,6 +22,7 @@ CommentSchema.virtual('profile', {
 CommentSchema.set('toObject', { virtuals: true });
 CommentSchema.set('toJSON', { virtuals: true });
 
-const CommentModel = model('comments', CommentSchema);
+// const CommentModel = model('comments', CommentSchema);
+const CommentModel = createModel('comments', CommentSchema);
 
 export { CommentModel };

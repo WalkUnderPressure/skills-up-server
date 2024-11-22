@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 
+import createModel from './lib/createModel';
+
 const ProfileSchema = new Schema({
     userId: { type: Schema.ObjectId },
     username: { type: String },
@@ -12,6 +14,7 @@ const ProfileSchema = new Schema({
     avatar: { type: String },
 });
 
-const ProfileModel = model('profiles', ProfileSchema);
+// const ProfileModel = model('profiles', ProfileSchema);
+const ProfileModel = createModel('profiles', ProfileSchema);
 
 export { ProfileSchema, ProfileModel };

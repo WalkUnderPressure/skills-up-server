@@ -59,16 +59,11 @@ async function startup() {
   });
 }
 
-// if (IS_DEV) {
+if (IS_DEV) {
   // start server
   startup();
-// }
+}
 
 export default (req: Request, res: Response) => {
   app(req, res);  // Pass the request and response to the Express app
 };
-
-// export default app;
-
-// Export the app as a Vercel-compatible handler
-// export default createServer(app);

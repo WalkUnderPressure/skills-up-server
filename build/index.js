@@ -58,13 +58,10 @@ function startup() {
         });
     });
 }
-// if (IS_DEV) {
-// start server
-startup();
-// }
+if (IS_DEV) {
+    // start server
+    startup();
+}
 exports.default = (req, res) => {
     app(req, res); // Pass the request and response to the Express app
 };
-// export default app;
-// Export the app as a Vercel-compatible handler
-// export default createServer(app);

@@ -1,7 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommentModel = void 0;
 const mongoose_1 = require("mongoose");
+const createModel_1 = __importDefault(require("./lib/createModel"));
 const CommentSchema = new mongoose_1.Schema({
     text: { type: String },
     postId: { type: mongoose_1.Schema.ObjectId },
@@ -19,5 +23,6 @@ CommentSchema.virtual('profile', {
 });
 CommentSchema.set('toObject', { virtuals: true });
 CommentSchema.set('toJSON', { virtuals: true });
-const CommentModel = (0, mongoose_1.model)('comments', CommentSchema);
+// const CommentModel = model('comments', CommentSchema);
+const CommentModel = (0, createModel_1.default)('comments', CommentSchema);
 exports.CommentModel = CommentModel;
