@@ -33,7 +33,7 @@ app.use(express.json());
 app.use(loggerMiddleware);
 
 app.get('/', (req, res) => {
-  return res.send("skills-up-server working!");
+  return res.json({ message: "Welcome! 'skills-up-server' is working fine!" });
 });
 
 app.use('/auth', authRouter);
