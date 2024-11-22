@@ -1,4 +1,4 @@
-# Exclude paclages from git
+# Exclude packages from git
 node_modules
 
 # Exclude editor folders
@@ -9,10 +9,6 @@ node_modules
 
 # Exclude vercel
 .vercel
-
-# Exclude build
-*/build/**
-/build/
 
 # env files
 .env
