@@ -38,7 +38,7 @@ app.use(express_1.default.json());
 // Add requests logger
 app.use(logger_1.default);
 app.get('/', (req, res) => {
-    return res.send("skills-up-server working!");
+    return res.json({ message: "Welcome! 'skills-up-server' is working fine!" });
 });
 app.use('/auth', AuthRouter_1.default);
 app.use(auth_1.default).use('/profiles', ProfilesRouter_1.default);
