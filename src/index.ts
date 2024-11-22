@@ -66,7 +66,7 @@ if (IS_DEV) {
 
 export default async (req: Request, res: Response) => {
   if (!IS_DEV) {
-    await startup();
+    await connectDB();
   }
 
   app(req, res);  // Pass the request and response to the Express app

@@ -64,7 +64,7 @@ if (IS_DEV) {
 }
 exports.default = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!IS_DEV) {
-        yield startup();
+        yield (0, db_1.default)();
     }
     app(req, res); // Pass the request and response to the Express app
 });
