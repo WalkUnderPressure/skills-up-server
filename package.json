@@ -7,18 +7,24 @@
   "keywords": [],
   "scripts": {
     "start:dev": "npx tsx watch ./src/index.ts",
-    "start": "node ./src/build/index.js",
-    "build": "rimraf ./src/build && npx tsc",
+    "start": "node ./build/index.js",
+    "build": "rimraf ./build && npx tsc",
+    "add-build": "git add build",
     "migrate:create": "cd db-migrations/ && migrate-mongo create",
     "migrate:up": "cd db-migrations/ && migrate-mongo up",
     "migrate:down": "cd db-migrations/ && migrate-mongo down"
   },
+  "pre-commit": [
+    "build",
+    "add-build"
+  ],
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "mongoose": "^8.6.0"
+    "mongoose": "^8.6.0",
+    "pre-commit": "^1.2.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",

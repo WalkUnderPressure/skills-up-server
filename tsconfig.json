@@ -9,7 +9,7 @@
     "moduleResolution": "node",
     "sourceMap": false,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./src/build",
+    "outDir": "./build",
     "rootDir": "./src",
     "baseUrl": "./src",
     "paths": {
