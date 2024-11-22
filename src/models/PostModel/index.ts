@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 
+import createModel from '../lib/createModel';
 import PostBlock from './PostBlock';
 
 type PostType = {
@@ -34,6 +35,7 @@ PostSchema.virtual('profile', {
 PostSchema.set('toObject', { virtuals: true });
 PostSchema.set('toJSON', { virtuals: true });
 
-const PostModel = model('posts', PostSchema);
+// const PostModel = model('posts', PostSchema);
+const PostModel = createModel('posts', PostSchema);
 
 export { PostSchema, PostModel, PostType };

@@ -2,18 +2,35 @@ import mongoose from 'mongoose';
 
 import addFieldsTransformer from './decorator/addFieldsTransformer';
 
+// Global connection cache
+let cachedDbConnection: typeof mongoose | null = null;
+
 const connectDB = async () => {
-  const DB_CONNECTION_URI = process.env.MONGO_URI || "";
-  const DB_NAME = process.env.MONGO_NAME || "";
+  if (cachedDbConnection) {
+    // Reuse the existing connection
+    return cachedDbConnection;
+  }
+
+  const MONGO_URI = process.env.MONGO_URI || "";
+  const MONGO_NAME = process.env.MONGO_NAME || "";
 
   try {
-    const conn = await mongoose.connect(DB_CONNECTION_URI, {
-      dbName: DB_NAME,
+    if (!MONGO_URI) throw new Error("MONGO_URI is not defined!");
+    if (!MONGO_NAME) throw new Error("MONGO_NAME is not defined!");
+
+    // Create a new connection
+    const connection = await mongoose.connect(MONGO_URI, {
+      dbName: MONGO_NAME,
     });
 
-    console.info(`>>> MongoDB Connected: ${conn.connection.host}`);
+    // Cache the connection
+    cachedDbConnection = connection;
+
+    console.info(`>>> MongoDB Connected: ${connection.connection.host}`);
+
+    return cachedDbConnection;
   } catch (error) {
-    console.error(`Error: ${error}`);
+    console.error(">>> Failed to connect to MongoDB:", error);
     process.exit(1);
   }
 };

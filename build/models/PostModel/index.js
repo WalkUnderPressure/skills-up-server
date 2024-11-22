@@ -1,7 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostModel = exports.PostSchema = void 0;
 const mongoose_1 = require("mongoose");
+const createModel_1 = __importDefault(require("../lib/createModel"));
 const PostSchema = new mongoose_1.Schema({
     title: { type: String },
     subtitle: { type: String },
@@ -22,5 +26,6 @@ PostSchema.virtual('profile', {
 });
 PostSchema.set('toObject', { virtuals: true });
 PostSchema.set('toJSON', { virtuals: true });
-const PostModel = (0, mongoose_1.model)('posts', PostSchema);
+// const PostModel = model('posts', PostSchema);
+const PostModel = (0, createModel_1.default)('posts', PostSchema);
 exports.PostModel = PostModel;

@@ -14,17 +14,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const addFieldsTransformer_1 = __importDefault(require("./decorator/addFieldsTransformer"));
+// Global connection cache
+let cachedDbConnection = null;
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const DB_CONNECTION_URI = process.env.MONGO_URI || "";
-    const DB_NAME = process.env.MONGO_NAME || "";
+    if (cachedDbConnection) {
+        // Reuse the existing connection
+        return cachedDbConnection;
+    }
+    const MONGO_URI = process.env.MONGO_URI || "";
+    const MONGO_NAME = process.env.MONGO_NAME || "";
     try {
-        const conn = yield mongoose_1.default.connect(DB_CONNECTION_URI, {
-            dbName: DB_NAME,
+        if (!MONGO_URI)
+            throw new Error("MONGO_URI is not defined!");
+        if (!MONGO_NAME)
+            throw new Error("MONGO_NAME is not defined!");
+        // Create a new connection
+        const connection = yield mongoose_1.default.connect(MONGO_URI, {
+            dbName: MONGO_NAME,
         });
-        console.info(`>>> MongoDB Connected: ${conn.connection.host}`);
+        // Cache the connection
+        cachedDbConnection = connection;
+        console.info(`>>> MongoDB Connected: ${connection.connection.host}`);
+        return cachedDbConnection;
     }
     catch (error) {
-        console.error(`Error: ${error}`);
+        console.error(">>> Failed to connect to MongoDB:", error);
         process.exit(1);
     }
 });
