@@ -59,10 +59,10 @@ async function startup() {
   });
 }
 
-if (IS_DEV) {
+// if (IS_DEV) {
   // start server
   startup();
-}
+// }
 
 export default (req: Request, res: Response) => {
   app(req, res);  // Pass the request and response to the Express app
