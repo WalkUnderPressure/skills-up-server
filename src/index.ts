@@ -1,6 +1,6 @@
 import "../loadEnvironment.mjs";
 
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 
 // Important load db first to apply mongoose plugins before model will be loaded
@@ -11,42 +11,27 @@ import commentsRouter from './api/CommentsRouter';
 import postsRouter from './api/PostsRouter';
 import authRouter from './api/AuthRouter';
 
+// Import middlewares
+import loggerMiddleware from "./middlewares/logger";
+import authMiddleware from "./middlewares/auth";
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
 // Add requests logger
-app.use((req, res, next) => {
-  const { method, url, params, query, body } = req;
-
-  console.info(`>>> url => ${JSON.stringify(url)}
-    method => ${JSON.stringify(method)}
-    params => ${JSON.stringify(params)}
-    query => ${JSON.stringify(query)}
-    body => ${JSON.stringify(body)}
-  `);
-
-  next();
-})
-
-// Check user authorization (now simple, update in future)
-app.use((req, res, next) => {
-  if (!req.headers.authorization) {
-    return res.status(403).json({ status: 403, message: 'Authorization required!' });
-  }
-
-  next();
-});
+app.use(loggerMiddleware);
 
 app.get('/', (req, res) => {
   return res.send("skills-up-server working!");
 });
 
 app.use('/auth', authRouter);
-app.use('/profiles', profilesRouter);
-app.use('/comments', commentsRouter);
-app.use('/posts', postsRouter);
+
+app.use(authMiddleware).use('/profiles', profilesRouter);
+app.use(authMiddleware).use('/comments', commentsRouter);
+app.use(authMiddleware).use('/posts', postsRouter);
 
 const PORT = process.env.PORT || 7000;
 
