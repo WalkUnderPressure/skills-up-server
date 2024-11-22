@@ -16,8 +16,9 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const path_1 = __importDefault(require("path"));
+const IS_DEV = Boolean(process.env.NODE_ENV === 'dev');
 let dotEnvConfig = {};
-if (process.env.NODE_ENV === 'dev') {
+if (IS_DEV) {
     dotEnvConfig.path = path_1.default.resolve(__dirname, '..', '.env');
 }
 // setup env variables
@@ -40,6 +41,10 @@ app.use(logger_1.default);
 app.get('/', (req, res) => {
     return res.json({ message: "Welcome! 'skills-up-server' is working fine!" });
 });
+// temporary api-point
+app.get("/favicon.ico", (req, res) => {
+    return res.status(204).end(); // No content, but successful response
+});
 app.use('/auth', AuthRouter_1.default);
 app.use(auth_1.default).use('/profiles', ProfilesRouter_1.default);
 app.use(auth_1.default).use('/comments', CommentsRouter_1.default);
@@ -53,5 +58,13 @@ function startup() {
         });
     });
 }
-// start server
-startup();
+if (IS_DEV) {
+    // start server
+    startup();
+}
+exports.default = (req, res) => {
+    app(req, res); // Pass the request and response to the Express app
+};
+// export default app;
+// Export the app as a Vercel-compatible handler
+// export default createServer(app);
