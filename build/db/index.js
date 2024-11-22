@@ -31,6 +31,9 @@ const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
         // Create a new connection
         const connection = yield mongoose_1.default.connect(MONGO_URI, {
             dbName: MONGO_NAME,
+            bufferCommands: false, // Disable buffering
+            socketTimeoutMS: 30000, // Increase timeout to 30 seconds
+            serverSelectionTimeoutMS: 30000, // Timeout for selecting the server
         });
         // Cache the connection
         cachedDbConnection = connection;

@@ -58,10 +58,13 @@ function startup() {
         });
     });
 }
-// if (IS_DEV) {
-// start server
-startup();
-// }
-exports.default = (req, res) => {
+if (IS_DEV) {
+    // start server
+    startup();
+}
+exports.default = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!IS_DEV) {
+        yield startup();
+    }
     app(req, res); // Pass the request and response to the Express app
-};
+});
