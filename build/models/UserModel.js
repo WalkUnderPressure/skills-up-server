@@ -9,7 +9,7 @@ const createModel_1 = __importDefault(require("./lib/createModel"));
 const UserSchema = new mongoose_1.Schema({
     username: { type: String },
     password: { type: String },
-    role: { type: String },
+    roles: { type: [String] },
 });
 exports.UserSchema = UserSchema;
 // const UserModel = model('users', UserSchema);

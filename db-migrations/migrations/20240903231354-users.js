@@ -12,13 +12,13 @@ module.exports = {
         "id": "1",
         "username": "admin",
         "password": bcrypt.hashSync('admin', salt),
-        "role": "ADMIN"
+        "roles": ["ADMIN"],
       },
       {
         "id": "2",
         "username": "user",
         "password": bcrypt.hashSync('user', salt),
-        "role": "USER"
+        "roles": ["USER"],
       }
     ];
 

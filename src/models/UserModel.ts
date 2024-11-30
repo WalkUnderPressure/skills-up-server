@@ -5,7 +5,7 @@ import createModel from './lib/createModel';
 const UserSchema = new Schema({
     username: { type: String },
     password: { type: String },
-    role: { type: String },
+    roles: { type: [String] },
 });
 
 // const UserModel = model('users', UserSchema);
