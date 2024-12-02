@@ -5,14 +5,6 @@ import { PostModel, PostType } from '../models/PostModel';
 
 const router: Router = express.Router();
 
-// /posts/tmp
-router.get('/tmp/', async (req, res) => {
-    return res.json([
-        { uid: 1, name: 'tmp post 1' },
-        { uid: 2, name: 'tmp post 2' },
-    ]);
-});
-
 // /posts/:postId
 router.get('/:postId', async (req, res) => {
     const { postId } = req.params;
