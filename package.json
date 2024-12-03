@@ -12,19 +12,22 @@
     "add-build": "git add build",
     "migrate:create": "cd db-migrations/ && migrate-mongo create",
     "migrate:up": "cd db-migrations/ && migrate-mongo up",
-    "migrate:down": "cd db-migrations/ && migrate-mongo down"
+    "migrate:down": "cd db-migrations/ && migrate-mongo down",
+    "foo": "echo \"fooo\" && exit 0",
+    "bar": "echo \"bar\" && exit 0"
   },
   "pre-commit": [
+    "foo",
     "build",
-    "add-build"
+    "add-build",
+    "bar"
   ],
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "mongoose": "^8.6.0",
-    "pre-commit": "^1.2.2"
+    "mongoose": "^8.6.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
@@ -33,6 +36,7 @@
     "@types/express": "^4.17.21",
     "@types/migrate-mongo": "^10.0.4",
     "migrate-mongo": "^11.0.0",
+    "pre-commit": "^1.2.2",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.0",
