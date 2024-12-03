@@ -51,6 +51,9 @@ app.use(auth_1.default).use('/profiles', ProfilesRouter_1.default);
 app.use(auth_1.default).use('/comments', CommentsRouter_1.default);
 app.use(auth_1.default).use('/posts', PostsRouter_1.default);
 app.use(auth_1.default).use('/notifications', NotificationsRouter_1.default);
+app.get('/ping', (req, res) => {
+    return res.json({ "pong": 2 });
+});
 const PORT = process.env.PORT || 7000;
 function startup() {
     return __awaiter(this, void 0, void 0, function* () {

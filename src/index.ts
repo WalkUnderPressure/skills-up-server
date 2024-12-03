@@ -52,7 +52,7 @@ app.use(authMiddleware).use('/posts', postsRouter);
 app.use(authMiddleware).use('/notifications', notificationsRouter);
 
 app.get('/ping', (req: Request, res: Response) => {
-  return res.json({ "pong": 1 });
+  return res.json({ "pong": 2 });
 })
 
 const PORT = process.env.PORT || 7000;
