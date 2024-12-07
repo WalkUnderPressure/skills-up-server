@@ -2,6 +2,7 @@ import { RootFilterQuery, SortOrder } from "mongoose";
 import express, { Router } from "express";
 
 import { NotificationModel, NotificationType } from '../models/NotificationModel';
+import getUserIdFromHeaders from "../lib/getUserIdFromHeaders";
 
 const router: Router = express.Router();
 
@@ -15,8 +16,7 @@ router.get('/', async (req, res) => {
         _limit = DEFAULT_PER_PAGE, _page = DEFAULT_PAGE,
     } = req.query;
 
-    const authHeader = req.headers.authorization;
-    const userId = authHeader && authHeader.split(' ')[1];
+    const userId = getUserIdFromHeaders(req);
 
     const limit = Number.parseInt(String(_limit)) ?? DEFAULT_PER_PAGE;
     const page = Number.parseInt(String(_page)) ?? DEFAULT_PAGE;

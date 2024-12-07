@@ -13,32 +13,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const NotificationModel_1 = require("../models/NotificationModel");
+const PostRatingModel_1 = require("../models/PostRatingModel");
 const getUserIdFromHeaders_1 = __importDefault(require("../lib/getUserIdFromHeaders"));
 const router = express_1.default.Router();
-const DEFAULT_PER_PAGE = 20;
-const DEFAULT_PAGE = 1;
-// TODO: Add _sort=dt_create&_order=asc
-// /notifications/?_limit=10&_page=2
-router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
-    const { _limit = DEFAULT_PER_PAGE, _page = DEFAULT_PAGE, } = req.query;
+// /post-rating/:postId
+router.get('/:postId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { postId } = req.params;
     const userId = (0, getUserIdFromHeaders_1.default)(req);
-    const limit = (_a = Number.parseInt(String(_limit))) !== null && _a !== void 0 ? _a : DEFAULT_PER_PAGE;
-    const page = (_b = Number.parseInt(String(_page))) !== null && _b !== void 0 ? _b : DEFAULT_PAGE;
-    const skip = Math.max((page - 1) * limit, 0);
     const findQuery = {
         userId,
+        postId,
     };
-    // let sortQuery: Array<[string, SortOrder]> = [];
-    // if (_sort && _order) {
-    //     sortQuery.push([String(_sort), _order as SortOrder]);
-    // }
-    const notifications = yield NotificationModel_1.NotificationModel
-        .find(findQuery)
-        // .sort(sortQuery)
-        .skip(skip)
-        .limit(limit);
-    return res.json(notifications);
+    const postRating = yield PostRatingModel_1.PostRatingModel.findOne(findQuery);
+    return res.json(postRating);
+}));
+// /post-rating/:postId
+router.post('/:postId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    const { postId } = req.params;
+    const userId = (0, getUserIdFromHeaders_1.default)(req);
+    if (!userId || !postId) {
+        return res.json({
+            status: 400,
+            message: "Can't create post rating object with provided data. PostId or UserId invalid!"
+        });
+    }
+    const postRatingData = req.body;
+    postRatingData.userId = userId;
+    postRatingData.postId = postId;
+    postRatingData.rating = (_a = postRatingData.rating) !== null && _a !== void 0 ? _a : 0;
+    postRatingData.feedback = (_b = postRatingData.feedback) !== null && _b !== void 0 ? _b : '';
+    const postRating = yield PostRatingModel_1.PostRatingModel.create(postRatingData);
+    return res.json(postRating);
 }));
 exports.default = router;

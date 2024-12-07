@@ -30,6 +30,7 @@ const ProfilesRouter_1 = __importDefault(require("./api/ProfilesRouter"));
 const CommentsRouter_1 = __importDefault(require("./api/CommentsRouter"));
 const PostsRouter_1 = __importDefault(require("./api/PostsRouter"));
 const NotificationsRouter_1 = __importDefault(require("./api/NotificationsRouter"));
+const PostRatingRouter_1 = __importDefault(require("./api/PostRatingRouter"));
 const AuthRouter_1 = __importDefault(require("./api/AuthRouter"));
 // Import middlewares
 const logger_1 = __importDefault(require("./middlewares/logger"));
@@ -51,6 +52,7 @@ app.use(auth_1.default).use('/profiles', ProfilesRouter_1.default);
 app.use(auth_1.default).use('/comments', CommentsRouter_1.default);
 app.use(auth_1.default).use('/posts', PostsRouter_1.default);
 app.use(auth_1.default).use('/notifications', NotificationsRouter_1.default);
+app.use(auth_1.default).use('/post-rating', PostRatingRouter_1.default);
 const PORT = process.env.PORT || 7000;
 function startup() {
     return __awaiter(this, void 0, void 0, function* () {

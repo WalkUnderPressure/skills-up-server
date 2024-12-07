@@ -21,6 +21,7 @@ import profilesRouter from './api/ProfilesRouter';
 import commentsRouter from './api/CommentsRouter';
 import postsRouter from './api/PostsRouter';
 import notificationsRouter from './api/NotificationsRouter';
+import postRatingRouter from './api/PostRatingRouter';
 import authRouter from './api/AuthRouter';
 
 // Import middlewares
@@ -50,6 +51,7 @@ app.use(authMiddleware).use('/profiles', profilesRouter);
 app.use(authMiddleware).use('/comments', commentsRouter);
 app.use(authMiddleware).use('/posts', postsRouter);
 app.use(authMiddleware).use('/notifications', notificationsRouter);
+app.use(authMiddleware).use('/post-rating', postRatingRouter);
 
 const PORT = process.env.PORT || 7000;
 
