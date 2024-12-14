@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 
 import deleteFieldFrom from "../lib/deleteFieldFrom";
 import { UserModel } from "../models/UserModel";
+import { ProfileModel } from "../models/ProfileModel";
 
 const router: Router = express.Router();
 
@@ -21,7 +22,12 @@ router.post('/sign-in/', async (req, res) => {
         isDataValid = bcrypt.compareSync(password, user?.password ?? '');
 
         if (isDataValid) {
-            response = deleteFieldFrom(user.toObject(), 'password');
+            const profile = await ProfileModel.findOne({ userId: user._id });
+
+            response = deleteFieldFrom({
+                ...user.toObject(),
+                avatar: profile.avatar ?? '',
+            }, 'password');
         }
     }
 

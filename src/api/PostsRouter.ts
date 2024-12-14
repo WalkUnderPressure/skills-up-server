@@ -9,9 +9,13 @@ const router: Router = express.Router();
 router.get('/:postId', async (req, res) => {
     const { postId } = req.params;
 
-    const post = await PostModel.findOne({ _id: postId }).populate('profile');
+    try {
+        const post = await PostModel.findOne({ _id: postId }).populate('profile');
 
-    return res.json(post);
+        return res.json(post);
+    } catch (error) {
+        return res.json({ message: "Can't find post with provided id" });
+    }
 });
 
 const DEFAULT_PER_PAGE = 20;

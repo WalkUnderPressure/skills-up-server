@@ -16,10 +16,11 @@ const express_1 = __importDefault(require("express"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const deleteFieldFrom_1 = __importDefault(require("../lib/deleteFieldFrom"));
 const UserModel_1 = require("../models/UserModel");
+const ProfileModel_1 = require("../models/ProfileModel");
 const router = express_1.default.Router();
 // /auth/sign-in/
 router.post('/sign-in/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b;
     const { username, password } = req.body;
     const user = yield UserModel_1.UserModel.findOne({ username });
     let isDataValid = false;
@@ -30,7 +31,8 @@ router.post('/sign-in/', (req, res) => __awaiter(void 0, void 0, void 0, functio
     if (user) {
         isDataValid = bcrypt_1.default.compareSync(password, (_a = user === null || user === void 0 ? void 0 : user.password) !== null && _a !== void 0 ? _a : '');
         if (isDataValid) {
-            response = (0, deleteFieldFrom_1.default)(user.toObject(), 'password');
+            const profile = yield ProfileModel_1.ProfileModel.findOne({ userId: user._id });
+            response = (0, deleteFieldFrom_1.default)(Object.assign(Object.assign({}, user.toObject()), { avatar: (_b = profile.avatar) !== null && _b !== void 0 ? _b : '' }), 'password');
         }
     }
     return res.json(response);

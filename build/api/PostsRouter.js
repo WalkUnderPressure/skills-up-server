@@ -18,8 +18,13 @@ const router = express_1.default.Router();
 // /posts/:postId
 router.get('/:postId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { postId } = req.params;
-    const post = yield PostModel_1.PostModel.findOne({ _id: postId }).populate('profile');
-    return res.json(post);
+    try {
+        const post = yield PostModel_1.PostModel.findOne({ _id: postId }).populate('profile');
+        return res.json(post);
+    }
+    catch (error) {
+        return res.json({ message: "Can't find post with provided id" });
+    }
 }));
 const DEFAULT_PER_PAGE = 20;
 const DEFAULT_PAGE = 1;
